@@ -1,0 +1,62 @@
+arch: convmixer_1024_20
+
+# ===== Dataset ===== #
+data_url: /imagenet/ILSVRC/Data/CLS-LOC/
+val_dir: validation_preprocess
+set: ImageNet
+num_classes: 1000
+
+auto_augment: rand-m9-mstd0.5-inc1
+aa_interpolation: bilinear
+re_prob: 0.25
+re_mode: pixel
+re_count: 1
+cutmix: 0.5
+mixup: 0.5
+mixup_prob: 1.0
+mixup_mode: batch
+mixup_off_epoch: 0.0
+switch_prob: 0.5
+min_crop: 0.08
+image_size: 224
+crop_pct: 0.96
+
+# ===== Learning Rate Policy ======== #
+optimizer: adamw
+base_lr: 0.001
+warmup_lr: 0.000007
+min_lr: 0.0001
+lr_scheduler: cosine_lr
+warmup_length: 0
+
+
+# ===== Network training config ===== #
+amp_level: O0
+keep_bn_fp32: True
+beta: [ 0.9, 0.999 ]
+is_dynamic_loss_scale: False
+epochs: 300
+label_smoothing: 0.1
+weight_decay: 0.0001
+momentum: 0.9
+batch_size: 16
+
+# ===== EMA ===== #
+with_ema: False
+ema_decay: 0.9999
+
+# ===== Gradient clipping ===== #
+use_clip_grad_norm: True
+clip_grad_norm: 1.0
+
+# ===== Hardware setup ===== #
+num_parallel_workers: 4
+device_target: GPU
+
+# ===== Artifacts setup ===== #
+summary_root_dir: /mindspore/summary_dir/
+ckpt_root_dir: /mindspore/checkpoints/
+best_ckpt_root_dir: /mindspore/best_checkpoints/
+ckpt_keep_num: 10
+ckpt_save_every_seconds: 1800
+print_loss_every: 50
